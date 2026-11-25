@@ -1,0 +1,27 @@
+# How the affinity enrichment file writes its values, and where each column goes.
+# Run on every load. What a valid stored value looks like (types, allowed values, ranges) is NOT
+# here: it's in config/destination_schema.yaml, the same for every file that writes the column.
+#
+# One row per student: the extracurricular group they belong to, or None. See the field notes in
+# on_campus_housing_mapping.yaml.
+# Written by src/generator/enrichment/affinity.py.
+
+- value: affinity
+  destination_table: student_attribute
+  destination_column: attribute_key
+  on_conflict: replace
+
+- source: Student_GUID
+  destination_table: student_attribute
+  destination_column: student_id
+  on_conflict: replace
+
+- source: Affinity
+  destination_table: student_attribute
+  destination_column: attribute_value
+  on_conflict: replace
+
+- source: Source
+  destination_table: student_attribute
+  destination_column: source
+  on_conflict: replace

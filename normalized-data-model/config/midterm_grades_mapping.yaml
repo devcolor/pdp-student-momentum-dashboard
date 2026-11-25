@@ -1,0 +1,51 @@
+# How the midterm grades enrichment file writes its values, and where each column goes.
+# Run on every load. What a valid stored value looks like (types, allowed values, ranges) is NOT
+# here: it's in config/destination_schema.yaml, the same for every file that writes the column.
+#
+# One row per student per course section, into midterm_grade. The course is looked up by prefix
+# and number, as the course file writes it. See the field notes in on_campus_housing_mapping.yaml.
+# Written by src/generator/enrichment/midterm_grades.py.
+
+- source: Student_GUID
+  destination_table: midterm_grade
+  destination_column: student_id
+  on_conflict: replace
+
+- source: Academic_Year
+  destination_table: term
+  destination_column: academic_year
+  on_conflict: replace
+
+- source: Academic_Term
+  destination_table: term
+  destination_column: academic_term
+  on_conflict: replace
+
+- source: Course_Prefix
+  destination_table: course
+  destination_column: course_prefix
+  on_conflict: replace   # natural key: the row is looked up or created, never overwritten
+
+- source: Course_Number
+  destination_table: course
+  destination_column: course_number
+  on_conflict: replace   # natural key: the row is looked up or created, never overwritten
+
+- source: Section_ID
+  destination_table: midterm_grade
+  destination_column: section_id
+  unknown_values: [UK, Missing]   # as the course file writes them, so the full key joins course_enrollment
+  on_conflict: replace
+
+- source: Course_Name
+  dropped: kept in the file for reading; the course name is stored on course_enrollment, from the course file
+
+- source: Midterm_Grade
+  destination_table: midterm_grade
+  destination_column: midterm_grade
+  on_conflict: replace
+
+- source: Source
+  destination_table: midterm_grade
+  destination_column: source
+  on_conflict: replace

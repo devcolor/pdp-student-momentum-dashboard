@@ -1,0 +1,133 @@
+# How the student matrix enrichment file writes its values, and where each column goes.
+# Run on every load. What a valid stored value looks like (types, allowed values, ranges) is NOT
+# here: it's in config/destination_schema.yaml, the same for every file that writes the column.
+#
+# One row per student per fall term, into student_term_matrix. See the field notes in
+# on_campus_housing_mapping.yaml.
+# Written by src/generator/enrichment/student_matrix.py.
+
+- source: Student_GUID
+  destination_table: student_term_matrix
+  destination_column: student_id
+  on_conflict: replace
+
+- source: Academic_Year
+  destination_table: term
+  destination_column: academic_year
+  on_conflict: replace
+
+- source: Academic_Term
+  destination_table: term
+  destination_column: academic_term
+  on_conflict: replace
+
+- source: New_Or_Returning
+  destination_table: student_term_matrix
+  destination_column: new_or_returning
+  on_conflict: replace
+
+- source: Student_Level
+  destination_table: student_term_matrix
+  destination_column: student_level
+  on_conflict: replace
+
+- source: Degree_Seeking
+  destination_table: student_term_matrix
+  destination_column: degree_seeking
+  true_values: ['true']
+  false_values: ['false']
+  on_conflict: replace
+
+- source: Full_Time
+  destination_table: student_term_matrix
+  destination_column: full_time
+  true_values: ['true']
+  false_values: ['false']
+  on_conflict: replace
+
+- source: Pell
+  destination_table: student_term_matrix
+  destination_column: pell
+  true_values: ['true']
+  false_values: ['false']
+  on_conflict: replace
+
+- source: Age
+  destination_table: student_term_matrix
+  destination_column: age
+  on_conflict: replace
+
+- source: Age_Category
+  destination_table: student_term_matrix
+  destination_column: age_category
+  on_conflict: replace
+
+- source: College_Ready
+  destination_table: student_term_matrix
+  destination_column: college_ready
+  on_conflict: replace
+
+- source: Educational_Goal
+  destination_table: student_term_matrix
+  destination_column: educational_goal
+  on_conflict: replace
+
+- source: Promise_Status
+  destination_table: student_term_matrix
+  destination_column: promise_status
+  on_conflict: replace
+
+- source: Term_Rank
+  destination_table: student_term_matrix
+  destination_column: term_rank
+  on_conflict: replace
+
+- source: Term_GPA
+  destination_table: student_term_matrix
+  destination_column: term_gpa
+  on_conflict: replace
+
+- source: Cumulative_GPA
+  destination_table: student_term_matrix
+  destination_column: cumulative_gpa
+  on_conflict: replace
+
+- source: Academic_Standing
+  destination_table: student_term_matrix
+  destination_column: academic_standing
+  on_conflict: replace
+
+- source: Term_Credits_Attempted
+  destination_table: student_term_matrix
+  destination_column: term_credits_attempted
+  on_conflict: replace
+
+- source: Term_Credits_Completed
+  destination_table: student_term_matrix
+  destination_column: term_credits_completed
+  on_conflict: replace
+
+- source: Term_Credits_Successful
+  destination_table: student_term_matrix
+  destination_column: term_credits_successful
+  on_conflict: replace
+
+- source: Retention_Fall_To_Spring
+  destination_table: student_term_matrix
+  destination_column: retention_fall_to_spring
+  on_conflict: replace
+
+- source: IPEDS_Grad_Rate_Status
+  destination_table: student_term_matrix
+  destination_column: ipeds_grad_rate_status
+  on_conflict: replace
+
+- source: NCCBP_Grad_Rate_Status
+  destination_table: student_term_matrix
+  destination_column: nccbp_grad_rate_status
+  on_conflict: replace
+
+- source: Source
+  destination_table: student_term_matrix
+  destination_column: source
+  on_conflict: replace

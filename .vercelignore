@@ -1,0 +1,39 @@
+# What `vercel deploy` leaves out of the upload. Vercel installs packages and builds the app itself.
+# The databases in playground/server_application/deploy_data/ must stay in: the API reads them.
+
+# Installs and build output
+**/node_modules
+**/.venv
+**/.next
+**/__pycache__
+**/.pytest_cache
+**/.ruff_cache
+playground/client_application/storybook-static
+
+**/*.egg-info
+**/*.db
+**/.DS_Store
+
+# What a local `vercel build` leaves behind
+.vercel
+playground/server_application/_uv
+normalized-data-model/build
+
+# Inputs and outputs only the data build uses. It runs in CI, before the upload.
+# data/staging/ alone is over 300 MB after a few local runs, and the API's size limit is 500 MB.
+data/raw
+normalized-data-model/data/staging
+normalized-data-model/data/uploads
+normalized-data-model/output
+normalized-data-model/logs
+measures/output
+gap_finder/output
+
+# Not part of the app. .env.local holds the token `vercel link` wrote.
+.env.local
+.git
+.github
+.idea
+# Root folders only: the client and API have docs/ folders of their own.
+/notebooks
+/docs

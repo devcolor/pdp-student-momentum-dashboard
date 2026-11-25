@@ -1,0 +1,28 @@
+# How an uploaded supplemental file writes its values, and where each column goes.
+# Run on every load that includes one. What a valid stored value looks like is NOT here: it's in
+# config/destination_schema.yaml, the same for every file that writes the column.
+#
+# An institution's own data where the PDP files fall short, one fact per row: the Playground's
+# Workbench upload turns each value column of the institution's file into rows of this shape
+# (playground/server_application/app/sandbox/pipeline/supplemental.py). This config is for facts
+# about a student overall, with no term; supplemental_term_mapping.yaml is for facts per term.
+
+- source: Student_GUID
+  destination_table: student_attribute
+  destination_column: student_id
+  on_conflict: replace
+
+- source: Attribute_Key
+  destination_table: student_attribute
+  destination_column: attribute_key
+  on_conflict: replace
+
+- source: Attribute_Value
+  destination_table: student_attribute
+  destination_column: attribute_value
+  on_conflict: replace
+
+- source: Source
+  destination_table: student_attribute
+  destination_column: source
+  on_conflict: replace
