@@ -1,0 +1,110 @@
+# What the shared results publish, and so what the query builder (mcp/pdp_mcp/results.py) can answer.
+#
+# measures/publish.py runs each measure and cohort below once, with every breakdown listed for it, and
+# the gap finder compares the groups of that same run. One run hides one set of groups, so no two
+# published rows can be subtracted to recover a hidden one. To approve a new breakdown or
+# cohort, add it here, raise the version, and publish again: python -m measures.publish
+#
+# A cohort is a list of years counted together. No year can be in two cohorts: two pools that share
+# years could be subtracted to recover the years they don't share.
+# single_cohorts (version 5) publishes single years beside the pool for a few measures and
+# breakdowns. Each measure listed there is run once for the pool and every single year together, and
+# hiding treats the pool as the sum of its years: it hides more single-year rows until no hidden group
+# can be worked out from the pool minus the other years, and never changes a pooled row. List every
+# year of a pool or none (a year outside the pool, such as 2024-25, is fine). Each breakdown must be
+# one the measure already has above. A measure with a course breakdown can't have single cohorts.
+# A breakdown is one to three dimensions from measures/models.py. course is for dfw_rate and
+# midterm_alert_rate only.
+# unmet_need_band comes from the synthetic financial aid file, whose link with retention is planted:
+# read its generator's docstring before reporting anything by band.
+# affinity and educational_goal are synthetic and independent of every outcome, except educational_goal
+# UNKNOWN (no fall term), which differs by construction: any other difference is noise. Their rates are published, but publish.py leaves them out of the gap finder (UNTESTED_DIMENSIONS).
+# transfer_in_share and part_time_share (version 7) are cohort make-up, not outcomes: who entered, out of every
+# entering student, so their everyone row's denominator is the entering students. publish.py finds no gaps for
+# them (NO_GAPS).
+# Version 7 also writes measure_trends: each single-cohort row's change from the year before, worded as
+# the tiles word it. no_trend lists the years a measure gets no trend row: retention and persistence need
+# year 2, which 2024-25 hasn't fully had, so its change from 2023-24 would read as a drop.
+# PLANTED: midterm_alert_rate and midterm_recovery_rate read synthetic midterm grades generated from the
+# final grades, so any link to DFW is circular by construction. They only show the pipeline works.
+
+version: 7
+
+cohorts:
+  - ["2021-22", "2022-23", "2023-24"]
+
+measures:
+  retention: &yes_or_no
+    - [race]
+    - [gender]
+    - [pell]
+    - [age_band]
+    - [enrollment_intensity]
+    - [unmet_need_band]
+    - [affinity]
+    - [educational_goal]
+    - [race, gender]
+  persistence: *yes_or_no
+  gateway_math: *yes_or_no
+  gateway_english: *yes_or_no
+  fall_to_spring_retention: *yes_or_no
+  first_fall_good_standing: *yes_or_no
+  # Version 7: the student success completion tile. Cohorts short of the 3-year window publish as
+  # not_yet_observable, and so does any pool holding one.
+  completion: *yes_or_no
+  transfer_in_share: &make_up
+    - [race]
+    - [gender]
+    - [pell]
+  part_time_share: *make_up
+  # pell and unmet_need_band (version 4) are approved so the aid momentum page can read them from the
+  # published file instead of running the measures live.
+  credit_completion:
+    - [race, gender]
+    - [pell]
+    - [unmet_need_band]
+  # Version 6: the course outcomes page's "All races" and "All genders" choices read course x race,
+  # course x gender, race and gender. They run with the measure's other breakdowns, so a course x race
+  # or course x gender row is the total of its course x race x gender line, and hiding covers both.
+  dfw_rate:
+    - [race, gender]
+    - [course]
+    - [course, race, gender]
+    - [pell]
+    - [unmet_need_band]
+    - [course, race]
+    - [course, gender]
+  midterm_alert_rate:
+    - [race, gender]
+    - [course]
+    - [course, race, gender]
+    - [course, race]
+    - [course, gender]
+    - [race]
+    - [gender]
+  midterm_recovery_rate:
+    - [race, gender]
+    - [race]
+    - [gender]
+
+# Version 5: the executive view's tiles and gaps card read these one cohort at a time.
+# Version 7: the student success and enrollment trends tiles too, so the chat can check every tile.
+single_cohorts:
+  years: ["2021-22", "2022-23", "2023-24", "2024-25"]
+  measures:
+    retention: &exec_view
+      - [race]
+      - [gender]
+      - [pell]
+      - [age_band]
+      - [enrollment_intensity]
+    persistence: *exec_view
+    gateway_math: *exec_view
+    gateway_english: *exec_view
+    fall_to_spring_retention: *exec_view
+    completion: *exec_view
+    transfer_in_share: *make_up
+    part_time_share: *make_up
+  no_trend:
+    retention: ["2024-25"]
+    persistence: ["2024-25"]

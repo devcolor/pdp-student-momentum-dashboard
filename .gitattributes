@@ -1,0 +1,12 @@
+data/**/*.csv -text
+# The data model's samples are stored byte for byte: data_provider checksums are taken from the CRLF files
+normalized-data-model/data/input/sample/**/*.csv -text
+normalized-data-model/data/output/sample/*.csv -text
+# Every committed enrichment input is stored byte for byte: git must not rewrite its line endings
+normalized-data-model/data/input/enrichment/*.csv -text
+# Generated enrichment inputs: collapsed on GitHub and left out of git diff
+normalized-data-model/data/input/enrichment/student_matrix.csv linguist-generated -diff -text
+normalized-data-model/data/input/enrichment/affinity.csv linguist-generated -diff -text
+normalized-data-model/data/input/enrichment/home_state.csv linguist-generated -diff -text
+normalized-data-model/data/input/enrichment/all_students_extras.csv linguist-generated -diff -text
+normalized-data-model/data/input/enrichment/midterm_grades.csv linguist-generated -diff -text

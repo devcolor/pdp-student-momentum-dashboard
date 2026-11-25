@@ -1,0 +1,577 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: var(--font-sans);
+    --font-sans: var(--font-sans);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-label-3: var(--chart-label-3);
+    --color-chart-label-2: var(--chart-label-2);
+    --color-chart-label-1: var(--chart-label-1);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+    --background: oklch(0.96 0 0);
+    --foreground: oklch(0.145 0 0);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(0.145 0 0);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(0.145 0 0);
+    --primary: oklch(0.205 0 0);
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(0.93 0 0);
+    --secondary-foreground: oklch(0.205 0 0);
+    --muted: oklch(0.93 0 0);
+    --muted-foreground: oklch(0.51 0 0);
+    --accent: oklch(0.93 0 0);
+    --accent-foreground: oklch(0.205 0 0);
+    --destructive: oklch(0.577 0.245 27.325);
+    --border: oklch(0.89 0 0);
+    --input: oklch(0.89 0 0);
+    --ring: oklch(0.708 0 0);
+    --radius: 0.625rem;
+    --sidebar: oklch(0.985 0 0);
+    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-primary: oklch(0.205 0 0);
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(0.97 0 0);
+    --sidebar-accent-foreground: oklch(0.205 0 0);
+    --sidebar-border: oklch(0.922 0 0);
+    --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+    --background: oklch(0.145 0 0);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.205 0 0);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.922 0 0);
+    --primary-foreground: oklch(0.205 0 0);
+    --secondary: oklch(0.269 0 0);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.269 0 0);
+    --muted-foreground: oklch(0.708 0 0);
+    --accent: oklch(0.269 0 0);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.704 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(0.556 0 0);
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.922 0 0);
+    /* Dark, like --primary-foreground: the light-on-light pair hid the pressed dev/color toggle's label. */
+    --sidebar-primary-foreground: oklch(0.205 0 0);
+    --sidebar-accent: oklch(0.269 0 0);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.556 0 0);
+}
+
+/* SYMPA's wordmark colors (see ProductWordmark): navy and green, white and a brighter green in
+   dark mode. They don't follow the color theme, so the product looks the same at every school. */
+:root {
+    --product-ink: #0f1b33;
+    --product-accent: #0fa36b;
+}
+
+.dark {
+    --product-ink: #ffffff;
+    --product-accent: #2fd08f;
+}
+
+/* --- Color themes, picked in the settings menu ------------------------------------------
+   dev/color is the :root and .dark tokens above. Brand hues are sampled from each school's
+   website. These never set chart colors: see the chart section below.
+   Each university also recolors the left sidebar, which brings its own tokens because
+   text and cards inside it sit on a solid brand color. */
+
+/* The selected page has its own color, because --sidebar-accent is also the hover color. */
+:root[data-palette^="university"] :is([data-slot="sidebar-container"][data-side="left"], [data-slot="sidebar"][data-mobile="true"]) [data-sidebar="menu-button"][data-active] {
+    background-color: var(--sidebar-active);
+    color: var(--sidebar-active-foreground);
+}
+
+/* The sidebar's text color is set on an element outside this scope, so it's set again here.
+   On the school's solid color the wordmark goes one color, the text's, as a logo on another
+   brand's color should. */
+:root[data-palette^="university"] :is([data-slot="sidebar-container"][data-side="left"], [data-slot="sidebar"][data-mobile="true"]) {
+    color: var(--sidebar-foreground);
+    --product-ink: var(--sidebar-foreground);
+    --product-accent: var(--sidebar-foreground);
+}
+
+/* University 1: Mississippi Valley State University green, with gold for what's selected. */
+:root[data-palette="university-1"] {
+    --background: #edf1e9;
+    --foreground: #12351f;
+    --card: #ffffff;
+    --card-foreground: #12351f;
+    --popover: #ffffff;
+    --popover-foreground: #12351f;
+    --primary: #00713d;
+    --primary-foreground: #ffffff;
+    --secondary: #dde5d9;
+    --secondary-foreground: #003b24;
+    --muted: #e2e8de;
+    --muted-foreground: #4b5b51;
+    --accent: #fcefcf;
+    --accent-foreground: #003b24;
+    --border: #d3dccf;
+    --input: #d3dccf;
+    --ring: #00713d;
+    --sidebar: #eaf0e7;
+    --sidebar-foreground: #12351f;
+    --sidebar-primary: #00713d;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #d8e4d3;
+    --sidebar-accent-foreground: #003b24;
+    --sidebar-border: #d8e0d5;
+    --sidebar-ring: #00713d;
+}
+
+:root[data-palette="university-1"] :is([data-slot="sidebar-container"][data-side="left"], [data-slot="sidebar"][data-mobile="true"]) {
+    --sidebar: #003b24;
+    --sidebar-foreground: #f1f5ee;
+    --sidebar-accent: #0b5a39;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-active: #f6ab00;
+    --sidebar-active-foreground: #12351f;
+    --sidebar-border: oklch(1 0 0 / 14%);
+    --sidebar-ring: #f6ab00;
+    --card: #0b4a30;
+    --card-foreground: #f1f5ee;
+    --muted: #0b5a39;
+    --muted-foreground: #bccfc3;
+    --primary: #f6ab00;
+    --primary-foreground: #12351f;
+    --border: oklch(1 0 0 / 14%);
+}
+
+:root.dark[data-palette="university-1"] {
+    --background: #0c1f15;
+    --foreground: #f1f5ee;
+    --card: #13291d;
+    --card-foreground: #f1f5ee;
+    --popover: #13291d;
+    --popover-foreground: #f1f5ee;
+    --primary: #f6ab00;
+    --primary-foreground: #12351f;
+    --secondary: #1e3a2b;
+    --secondary-foreground: #f1f5ee;
+    --muted: #1e3a2b;
+    --muted-foreground: #a9bbaf;
+    --accent: #274a37;
+    --accent-foreground: #f1f5ee;
+    --border: oklch(1 0 0 / 12%);
+    --input: oklch(1 0 0 / 18%);
+    --ring: #f6ab00;
+    --sidebar: #0f2619;
+    --sidebar-foreground: #f1f5ee;
+    --sidebar-primary: #f6ab00;
+    --sidebar-primary-foreground: #12351f;
+    --sidebar-accent: #1e3a2b;
+    --sidebar-accent-foreground: #f1f5ee;
+    --sidebar-border: oklch(1 0 0 / 12%);
+    --sidebar-ring: #f6ab00;
+}
+
+:root.dark[data-palette="university-1"] :is([data-slot="sidebar-container"][data-side="left"], [data-slot="sidebar"][data-mobile="true"]) {
+    --sidebar: #0b3321;
+    --sidebar-foreground: #f1f5ee;
+    --sidebar-accent: #17482f;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-active: #f6ab00;
+    --sidebar-active-foreground: #12351f;
+    --sidebar-border: oklch(1 0 0 / 12%);
+    --sidebar-ring: #f6ab00;
+    --card: #123f2a;
+    --card-foreground: #f1f5ee;
+    --muted: #17482f;
+    --muted-foreground: #b4c7bb;
+    --primary: #f6ab00;
+    --primary-foreground: #12351f;
+    --border: oklch(1 0 0 / 12%);
+}
+
+/* University 2: Community College of Allegheny County red, with navy as the text color.
+   Errors turn amber here so they don't disappear into the brand red. */
+:root[data-palette="university-2"] {
+    --background: #f5eeed;
+    --foreground: #14263a;
+    --card: #ffffff;
+    --card-foreground: #14263a;
+    --popover: #ffffff;
+    --popover-foreground: #14263a;
+    --primary: #a6192e;
+    --primary-foreground: #ffffff;
+    --secondary: #f2dde1;
+    --secondary-foreground: #8a1426;
+    --muted: #ece4e4;
+    --muted-foreground: #5c5f63;
+    --accent: #f2dde1;
+    --accent-foreground: #a6192e;
+    --destructive: #a34a07;
+    --border: #e6d7da;
+    --input: #e6d7da;
+    --ring: #a6192e;
+    --sidebar: #f8efef;
+    --sidebar-foreground: #14263a;
+    --sidebar-primary: #a6192e;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f2dfe2;
+    --sidebar-accent-foreground: #8a1426;
+    --sidebar-border: #ecdfe1;
+    --sidebar-ring: #a6192e;
+}
+
+:root[data-palette="university-2"] :is([data-slot="sidebar-container"][data-side="left"], [data-slot="sidebar"][data-mobile="true"]) {
+    --sidebar: #a6192e;
+    --sidebar-foreground: #ffffff;
+    --sidebar-accent: #8a1426;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-active: #ffffff;
+    --sidebar-active-foreground: #a6192e;
+    --sidebar-border: oklch(1 0 0 / 20%);
+    --sidebar-ring: #ffffff;
+    --card: #8a1426;
+    --card-foreground: #ffffff;
+    --muted: #8a1426;
+    --muted-foreground: #f4d9dd;
+    --primary: #ffffff;
+    --primary-foreground: #a6192e;
+    --border: oklch(1 0 0 / 20%);
+}
+
+:root.dark[data-palette="university-2"] {
+    --background: #171012;
+    --foreground: #f5eff0;
+    --card: #221719;
+    --card-foreground: #f5eff0;
+    --popover: #221719;
+    --popover-foreground: #f5eff0;
+    --primary: #e5566b;
+    --primary-foreground: #1a0a0d;
+    --secondary: #3a1d24;
+    --secondary-foreground: #f5eff0;
+    --muted: #2e1c20;
+    --muted-foreground: #b9a9ad;
+    --accent: #4a1e2b;
+    --accent-foreground: #f9e4e7;
+    --destructive: #f59e0b;
+    --border: oklch(1 0 0 / 12%);
+    --input: oklch(1 0 0 / 18%);
+    --ring: #e5566b;
+    --sidebar: #1d1315;
+    --sidebar-foreground: #f5eff0;
+    --sidebar-primary: #e5566b;
+    --sidebar-primary-foreground: #1a0a0d;
+    --sidebar-accent: #3a1d24;
+    --sidebar-accent-foreground: #f5eff0;
+    --sidebar-border: oklch(1 0 0 / 12%);
+    --sidebar-ring: #e5566b;
+}
+
+:root.dark[data-palette="university-2"] :is([data-slot="sidebar-container"][data-side="left"], [data-slot="sidebar"][data-mobile="true"]) {
+    --sidebar: #7a1222;
+    --sidebar-foreground: #ffffff;
+    --sidebar-accent: #5f0e1a;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-active: #f5eff0;
+    --sidebar-active-foreground: #8a1426;
+    --sidebar-border: oklch(1 0 0 / 16%);
+    --sidebar-ring: #f5eff0;
+    --card: #5f0e1a;
+    --card-foreground: #ffffff;
+    --muted: #5f0e1a;
+    --muted-foreground: #f0cdd3;
+    --primary: #f5eff0;
+    --primary-foreground: #8a1426;
+    --border: oklch(1 0 0 / 16%);
+}
+
+/* --- Charts ------------------------------------------------------------------------------
+   Charts follow light/dark mode and the Charts setting, never the UI theme. Series colors are
+   validated for colorblind separation. --chart-label-N is the text drawn on --chart-N. */
+:root {
+    --chart-1: #256abf;
+    --chart-2: #eb6834;
+    --chart-3: #1baf7a;
+    --chart-4: #eda100;
+    --chart-5: #e87ba4;
+    --chart-label-1: #ffffff;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #0a0a0a;
+}
+
+.dark {
+    --chart-1: #3987e5;
+    --chart-2: #d95926;
+    --chart-3: #199e70;
+    --chart-4: #c98500;
+    --chart-5: #d55181;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #0a0a0a;
+}
+
+:root[data-chart-palette="grayscale"] {
+    --chart-1: #0a0a0a;
+    --chart-2: #5b5b5b;
+    --chart-3: #ababab;
+    --chart-4: #7a7a7a;
+    --chart-5: #c9c9c9;
+    --chart-label-1: #ffffff;
+    --chart-label-2: #ffffff;
+    --chart-label-3: #0a0a0a;
+}
+
+:root.dark[data-chart-palette="grayscale"] {
+    --chart-1: #fafafa;
+    --chart-2: #999999;
+    --chart-3: #525252;
+    --chart-4: #b5b5b5;
+    --chart-5: #6b6b6b;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #fafafa;
+}
+
+/* Published colorblind-safe sets. A color that nearly vanishes on one mode's background is
+   swapped for another from the same set in that mode. */
+:root:is([data-chart-palette="okabe-ito"], [data-chart-palette="wong"]) {
+    --chart-1: #e69f00;
+    --chart-2: #56b4e9;
+    --chart-3: #009e73;
+    --chart-4: #d55e00;
+    --chart-5: #0072b2;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #0a0a0a;
+}
+
+:root.dark:is([data-chart-palette="okabe-ito"], [data-chart-palette="wong"]) {
+    --chart-4: #f0e442;
+}
+
+:root[data-chart-palette="ibm"] {
+    --chart-1: #648fff;
+    --chart-2: #785ef0;
+    --chart-3: #dc0067;
+    --chart-4: #fe6100;
+    --chart-5: #ffb000;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #ffffff;
+    --chart-label-3: #ffffff;
+}
+
+:root[data-chart-palette="paul-tol"] {
+    --chart-1: #cc6677;
+    --chart-2: #332288;
+    --chart-3: #ddcc77;
+    --chart-4: #117733;
+    --chart-5: #88ccee;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #ffffff;
+    --chart-label-3: #0a0a0a;
+}
+
+:root.dark[data-chart-palette="paul-tol"] {
+    --chart-2: #88ccee;
+    --chart-5: #aa4499;
+    --chart-label-2: #0a0a0a;
+}
+
+:root[data-chart-palette="paul-tol-vibrant"] {
+    --chart-1: #0077bb;
+    --chart-2: #33bbee;
+    --chart-3: #009988;
+    --chart-4: #cc3311;
+    --chart-5: #ee3377;
+    --chart-label-1: #ffffff;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #0a0a0a;
+}
+
+:root[data-chart-palette="paul-tol-light"] {
+    --chart-1: #77aadd;
+    --chart-2: #ee8866;
+    --chart-3: #44bb99;
+    --chart-4: #bbcc33;
+    --chart-5: #ffaabb;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #0a0a0a;
+}
+
+:root.dark[data-chart-palette="paul-tol-light"] {
+    --chart-3: #eedd88;
+    --chart-4: #ffaabb;
+    --chart-5: #99ddff;
+}
+
+/* Microbiome is an eight-step ramp, so its slots skip around it to keep neighbors distinct. */
+:root[data-chart-palette="microbiome"] {
+    --chart-1: #003f5c;
+    --chart-2: #ff7c43;
+    --chart-3: #665191;
+    --chart-4: #ffa600;
+    --chart-5: #d45087;
+    --chart-label-1: #ffffff;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #ffffff;
+}
+
+/* Made for dark backgrounds: its cyan and amber are faint in light mode. */
+:root[data-chart-palette="dark-high-contrast"] {
+    --chart-1: #00f5d4;
+    --chart-2: #ffb703;
+    --chart-3: #7b2cbf;
+    --chart-4: #38b000;
+    --chart-5: #ff5400;
+    --chart-label-1: #0a0a0a;
+    --chart-label-2: #0a0a0a;
+    --chart-label-3: #ffffff;
+}
+
+/* Resets the UI tokens to neutrals for everything inside, so the UI theme stops at the card. */
+.chart-surface {
+    --background: #ffffff;
+    --foreground: #0a0a0a;
+    --card: #ffffff;
+    --card-foreground: #0a0a0a;
+    --popover: #ffffff;
+    --popover-foreground: #0a0a0a;
+    --primary: #171717;
+    --primary-foreground: #fafafa;
+    --secondary: #f5f5f5;
+    --secondary-foreground: #171717;
+    --muted: #f5f5f5;
+    --muted-foreground: #6b6b6b;
+    --accent: #f5f5f5;
+    --accent-foreground: #171717;
+    --border: #e5e5e5;
+    --input: #e5e5e5;
+    --ring: #a1a1a1;
+}
+
+.dark .chart-surface {
+    --background: #171717;
+    --foreground: #fafafa;
+    --card: #171717;
+    --card-foreground: #fafafa;
+    --popover: #171717;
+    --popover-foreground: #fafafa;
+    --primary: #e5e5e5;
+    --primary-foreground: #171717;
+    --secondary: #262626;
+    --secondary-foreground: #fafafa;
+    --muted: #262626;
+    --muted-foreground: #a1a1a1;
+    --accent: #262626;
+    --accent-foreground: #fafafa;
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: #737373;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    }
+  body {
+    @apply bg-background text-foreground;
+    }
+  html {
+    @apply font-sans;
+    }
+}
+/* --- Playground motion & patterns ------------------------------------------------------
+   Used with Tailwind's motion-safe: variant, so nothing moves for visitors who ask their
+   system for reduced motion. */
+@theme {
+  --animate-fade-up: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-travel-x: travel-x 1.2s cubic-bezier(0.65, 0, 0.35, 1) both;
+  --animate-travel-y: travel-y 1.2s cubic-bezier(0.65, 0, 0.35, 1) both;
+  /* The same movement, repeating: data flowing from one step to the next. */
+  --animate-flow-x: travel-x 2.4s cubic-bezier(0.65, 0, 0.35, 1) 1s infinite;
+  --animate-flow-y: travel-y 2.4s cubic-bezier(0.65, 0, 0.35, 1) 1s infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.4, 0, 0.2, 1) 1.4s infinite;
+  --animate-nudge-x: nudge-x 2.4s cubic-bezier(0.4, 0, 0.2, 1) 1.4s infinite;
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(12px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  @keyframes travel-x {
+    0% { left: 0%; opacity: 0; }
+    15%, 85% { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+  @keyframes travel-y {
+    0% { top: 0%; opacity: 0; }
+    15%, 85% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+  /* A soft ring that grows out of a call-to-action and fades, like a heartbeat. */
+  @keyframes pulse-ring {
+    0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--foreground) 35%, transparent); }
+    70%, 100% { box-shadow: 0 0 0 12px color-mix(in oklab, var(--foreground) 0%, transparent); }
+  }
+  /* Arrow steps forward once per pulse. */
+  @keyframes nudge-x {
+    0%, 30%, 100% { transform: translateX(0); }
+    15% { transform: translateX(3px); }
+  }
+}
+
+/* Diagonal stripes in the current text color: "degraded" without needing a second color. */
+@utility stripes {
+  background-image: repeating-linear-gradient(
+    135deg,
+    currentColor 0 1.5px,
+    transparent 1.5px 4px
+  );
+}

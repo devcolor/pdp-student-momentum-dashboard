@@ -1,0 +1,90 @@
+# How the synthetic financial aid enrichment file writes its values, and where each column goes.
+# Run on every load. What a valid stored value looks like (types, allowed values, ranges) is NOT
+# here: it's in config/destination_schema.yaml, the same for every file that writes the column.
+#
+# Each entry: source (or value, a fixed value for every row), destination_table,
+# destination_column and on_conflict (append, replace or keep: what the loader does when the
+# destination row already holds a value). Where they apply:
+#   format          how a date is written, as a strptime pattern.
+#   true_values / false_values   how a true/false value is written.
+#   value_map       known variants and their repaired values.
+#   missing_values  codes this file uses for "no value". A blank cell always means no value.
+#   unknown_values  codes this file uses for "unknown".
+#   must_exist      the row must already have been written by another file in the same run.
+# A source column with no destination is marked `dropped:` with the reason.
+# Written by src/generator/enrichment/financial_aid.py.
+#
+# Only the band is stored. The file keeps every dollar column so it stays faithful to the
+# financial aid Analysis-Ready File dictionary, but a dollar amount is a per-year continuous
+# value, not an attribute, so storing it as one student_attribute row per amount would multiply
+# the table without making a measure easier to write. The band is what a breakdown needs.
+# Academic_Term is absent from the file, so term.academic_term falls back to its default, UNKNOWN.
+
+- value: unmet_need_band
+  destination_table: student_attribute
+  destination_column: attribute_key
+  on_conflict: replace
+
+- source: Student_GUID
+  destination_table: student_attribute
+  destination_column: student_id
+  on_conflict: replace
+
+- source: Academic_Year
+  destination_table: term
+  destination_column: academic_year
+  on_conflict: replace
+
+# The aid file is per academic year and names no term, so every aid row lands on the year's
+# UNKNOWN term. Declaring it as an unknown value is what lets it past the academic_term list.
+- value: UNKNOWN
+  unknown_values: ['UNKNOWN']
+  destination_table: term
+  destination_column: academic_term
+  on_conflict: keep
+
+- source: Unmet_Need_Band
+  destination_table: student_attribute
+  destination_column: attribute_value
+  on_conflict: replace
+
+- source: Source
+  destination_table: student_attribute
+  destination_column: source
+  on_conflict: replace
+
+- source: Dependency_Status
+  dropped: No measure or breakdown uses dependency status yet.
+
+- source: Housing_Status
+  dropped: >
+    The on-campus housing enrichment already writes this fact as uses_on_campus_housing.
+    Two sources for one attribute is a reconciliation question, not an ingest one.
+
+- source: Applied_Aid
+  dropped: >
+    Kept in the file for a FAFSA filing measure, which needs its own attribute_key and so its
+    own pass over this file.
+
+- source: Cost_of_Attendance
+  dropped: A per-year dollar amount, not an attribute. See the note at the top.
+
+- source: EFC
+  dropped: A per-year dollar amount, not an attribute. See the note at the top.
+
+- source: Total_Institutional_Grants
+  dropped: A per-year dollar amount, not an attribute. See the note at the top.
+
+- source: Total_State_Grants
+  dropped: A per-year dollar amount, not an attribute. See the note at the top.
+
+- source: Total_Federal_Grants
+  dropped: A per-year dollar amount, not an attribute. See the note at the top.
+
+- source: Unmet_Need
+  dropped: >
+    The amount the band is built from. Unmet_Need_Band is stored instead, so no stored value
+    narrows a student to a dollar figure.
+
+- source: Net_Price
+  dropped: A per-year dollar amount, not an attribute. See the note at the top.

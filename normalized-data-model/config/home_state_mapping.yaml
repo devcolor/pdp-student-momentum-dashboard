@@ -1,0 +1,27 @@
+# How the home state enrichment file writes its values, and where each column goes.
+# Run on every load. What a valid stored value looks like (types, allowed values, ranges) is NOT
+# here: it's in config/destination_schema.yaml, the same for every file that writes the column.
+#
+# One row per student: the two-letter state they lived in when they enrolled. The real field is
+# State in the PDP cohort submission file; the Analysis-Ready File leaves it out.
+# Written by src/generator/enrichment/home_state.py.
+
+- value: home_state
+  destination_table: student_attribute
+  destination_column: attribute_key
+  on_conflict: replace
+
+- source: Student_GUID
+  destination_table: student_attribute
+  destination_column: student_id
+  on_conflict: replace
+
+- source: Home_State
+  destination_table: student_attribute
+  destination_column: attribute_value
+  on_conflict: replace
+
+- source: Source
+  destination_table: student_attribute
+  destination_column: source
+  on_conflict: replace
